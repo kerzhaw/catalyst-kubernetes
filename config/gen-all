@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+rm *.kubeconfig
+
+./gen-worker-configs
+./gen-proxy-configs
+./gen-cm-configs
+./gen-sched-configs
+./gen-admin-configs
+

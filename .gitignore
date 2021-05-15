@@ -1,0 +1,6 @@
+config/*.kubeconfig
+enc/*.yaml
+pki/*.json
+pki/*.pem
+pki/*.csr
+

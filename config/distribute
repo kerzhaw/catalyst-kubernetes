@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+for instance in worker-0 worker-1; do
+  export INTERNAL_IP=$(openstack server show -c addresses -f yaml ${instance} | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
+  echo "Copying kubeconfigs to ${instance} (${INTERNAL_IP})..."
+  scp -i ../cloud.key ${instance}.kubeconfig kube-proxy.kubeconfig ubuntu@${INTERNAL_IP}:~/
+done
+
+for instance in controller-0 controller-1; do
+
+  export INTERNAL_IP=$(openstack server show -c addresses -f yaml ${instance} | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
+  echo "Copying kubeconfigs to ${instance} (${INTERNAL_IP})..."
+
+  scp -i ../cloud.key admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig \
+      ubuntu@${INTERNAL_IP}:~/
+
+done

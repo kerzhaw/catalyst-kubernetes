@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+{
+
+export KUBERNETES_PUBLIC_ADDRESS=$(openstack floating ip list -c 'Floating IP Address' -f value)
+export KUBERNETES_HOSTNAMES=kubernetes,kubernetes.default,kubernetes.default.svc,kubernetes.default.svc.cluster,kubernetes.svc.cluster.local
+
+echo "-------------------------------------------------------------------"
+echo "Generating API server certificate, using public IP: ${KUBERNETES_PUBLIC_ADDRESS}"
+echo "-------------------------------------------------------------------"
+
+cat > kubernetes-csr.json <<EOF
+{
+  "CN": "kubernetes",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "NZ",
+      "L": "Auckland",
+      "O": "Kubernetes"
+    }
+  ]
+}
+EOF
+
+cfssl gencert \
+  -ca=ca.pem \
+  -ca-key=ca-key.pem \
+  -config=ca-config.json \
+  -hostname=10.32.0.1,10.240.0.20,10.240.0.21,${KUBERNETES_PUBLIC_ADDRESS},127.0.0.1,${KUBERNETES_HOSTNAMES} \
+  -profile=kubernetes \
+  kubernetes-csr.json | cfssljson -bare kubernetes
+
+}

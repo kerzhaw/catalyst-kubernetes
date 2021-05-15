@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+./remove-all
+
+./gen-ca
+./gen-admin-cert
+./gen-kubelet-certs
+./gen-cm-client-cert
+./gen-proxy-client-cert
+./gen-sched-client-cert
+./gen-api-server-cert
+./gen-svc-account-keypair
