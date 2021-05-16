@@ -88,3 +88,14 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 }
+
+# Request a floating IP
+resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
+    pool = "public-net"
+}
+
+# Associate floating IP
+resource "openstack_compute_floatingip_associate_v2" "kz8s-public-ip-assoc" {
+  floating_ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+  instance_id = "${openstack_compute_instance_v2.controller-0.id}"
+}
