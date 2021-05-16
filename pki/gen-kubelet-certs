@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-for instance in worker-0 worker-1; do
-cat > ${instance}-csr.json <<EOF
+for n in 0 1; do
+cat > worker-${n}-csr.json <<EOF
 {
-  "CN": "system:node:${instance}",
+  "CN": "system:node:worker-${n}",
   "key": {
     "algo": "rsa",
     "size": 2048
@@ -19,10 +19,10 @@ cat > ${instance}-csr.json <<EOF
 EOF
 
 export EXTERNAL_IP=$(openstack floating ip list -c 'Floating IP Address' -f value)
-export INTERNAL_IP=$(openstack server show -c addresses -f yaml ${instance} | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
+export INTERNAL_IP=10.240.0.2${n}
 
 echo Generating cert...
-echo Instance: ${instance}
+echo Instance: worker-${n}
 echo External: ${EXTERNAL_IP}
 echo Internal: ${INTERNAL_IP}
 echo -------------------------
@@ -31,7 +31,7 @@ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
-  -hostname=${instance},${EXTERNAL_IP},${INTERNAL_IP} \
+  -hostname=worker-${n},${EXTERNAL_IP},${INTERNAL_IP} \
   -profile=kubernetes \
-  ${instance}-csr.json | cfssljson -bare ${instance}
+  worker-${n}-csr.json | cfssljson -bare worker-${n}
 done
