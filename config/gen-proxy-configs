@@ -4,7 +4,7 @@ export KUBERNETES_PUBLIC_ADDRESS=$(openstack floating ip list -c 'Floating IP Ad
 
 {
   kubectl config set-cluster kz8s \
-    --certificate-authority=../pki/ca.pem \
+    --certificate-authority=../pki/controller/ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=kube-proxy.kubeconfig
