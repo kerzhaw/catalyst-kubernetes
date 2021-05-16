@@ -88,17 +88,8 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo dont you love it > ~/myfile.txt",
-    ]
-
-    connection {
-        type     = "ssh"
-        user     = "ubuntu"
-        private_key = file("../kz8s.key")
-        host     = "10.240.0.10"
-    }
+  provisioner "local-exec" {
+    command = "echo ${self.private_ip} >> private_ips.txt"
   }
 }
 
