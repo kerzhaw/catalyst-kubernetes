@@ -88,16 +88,17 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  provisioner "file" {
-    source      = "script.sh"
-    destination = "/tmp/script.sh"
-  }
-
   provisioner "remote-exec" {
     inline = [
-      "chmod +x /tmp/script.sh",
-      "/tmp/script.sh args",
+      "echo dont you love it > ~/myfile.txt",
     ]
+
+    connection {
+        type     = "ssh"
+        user     = "ubuntu"
+        private_key = file("../kz8s.key")
+        host     = "10.240.0.10"
+    }
   }
 }
 
