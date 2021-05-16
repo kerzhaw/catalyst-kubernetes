@@ -87,6 +87,18 @@ resource "openstack_compute_instance_v2" "controller-0" {
     name = "${openstack_networking_network_v2.kz8s-net.name}"
     fixed_ip_v4 = "10.240.0.10"
   }
+
+  provisioner "file" {
+    source      = "script.sh"
+    destination = "/tmp/script.sh"
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/script.sh",
+      "/tmp/script.sh args",
+    ]
+  }
 }
 
 # Request a floating IP
