@@ -40,7 +40,7 @@ resource "openstack_networking_subnet_v2" "kubernetes-subnet" {
 # Create a Router interface
 resource "openstack_networking_router_interface_v2" "router-interface" {
     router_id = "${openstack_networking_router_v2.border-router.id}"
-    subnet_id = "${openstack_networking_subnet_v2.kz8s-net.id}"
+    subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
 }
 
 # Create a Security Group
