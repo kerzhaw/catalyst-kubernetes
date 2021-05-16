@@ -15,7 +15,7 @@ mkdir -p controller
 mkdir -p worker
 
 cp ca.pem worker/
-mv ca.pem controller/
+mv worker*.pem worker/
 
-mv worker-*-key.* worker/
-mv *.pem controller/
+mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem service-account-key.pem service-account.pem worker/
+

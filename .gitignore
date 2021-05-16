@@ -3,6 +3,8 @@ enc/*.yaml
 pki/*.json
 pki/*.pem
 pki/*.csr
+pki/worker/
+pki/controller/
 first-instance.tf
 .terraform/
 **/*.tfstate*
