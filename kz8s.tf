@@ -123,7 +123,17 @@ resource "openstack_compute_instance_v2" "controller-0" {
     destination = "/home/ubuntu"
   }
  
-  #   provisioner "remote-exec" {
+  provisioner "file" {
+    source      = "config/controller/"
+    destination = "/home/ubuntu"
+  }
+
+  provisioner "file" {
+    source      = "enc/encryption-config.yaml"
+    destination = "/home/ubuntu"
+  }
+
+ #   provisioner "remote-exec" {
   #     script = "controller-setup.sh"
   #   }
 
@@ -158,6 +168,16 @@ resource "openstack_compute_instance_v2" "controller-1" {
 
   provisioner "file" {
     source      = "pki/controller/"
+    destination = "/home/ubuntu"
+  }
+
+  provisioner "file" {
+    source      = "config/controller/"
+    destination = "/home/ubuntu"
+  }
+
+  provisioner "file" {
+    source      = "enc/encryption-config.yaml"
     destination = "/home/ubuntu"
   }
 
@@ -199,6 +219,11 @@ resource "openstack_compute_instance_v2" "worker-0" {
     destination = "/home/ubuntu"
   }
 
+  provisioner "file" {
+    source      = "config/worker/"
+    destination = "/home/ubuntu"
+  }
+
   #   provisioner "remote-exec" {
   #     script = "worker-setup.sh"
   #   }
@@ -234,6 +259,11 @@ resource "openstack_compute_instance_v2" "worker-1" {
 
   provisioner "file" {
     source      = "pki/worker/"
+    destination = "/home/ubuntu"
+  }
+
+  provisioner "file" {
+    source      = "config/worker/"
     destination = "/home/ubuntu"
   }
 
