@@ -15,5 +15,5 @@ mkdir -p worker
 mv worker*.kubeconfig worker/
 mv kube-proxy.kubeconfig worker/
 
-mv admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig /controller
+mv admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig controller/
 
