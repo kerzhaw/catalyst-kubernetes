@@ -73,6 +73,24 @@ resource "openstack_blockstorage_volume_v2" "controller-0-volume" {
   image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
 }
 
+resource "openstack_blockstorage_volume_v2" "controller-1-volume" {
+  name     = "controller-1-volume"
+  size     = 100
+  image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
+}
+
+resource "openstack_blockstorage_volume_v2" "worker-1-volume" {
+  name     = "worker-1-volume"
+  size     = 100
+  image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
+}
+
+resource "openstack_blockstorage_volume_v2" "worker-1-volume" {
+  name     = "worker-1-volume"
+  size     = 100
+  image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
+}
+
 ## Create controller-0
 resource "openstack_compute_instance_v2" "controller-0" {
   name            = "controller-0"
@@ -93,22 +111,6 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  #   provisioner "file" {
-  #     source      = "controller-setup.sh"    
-  #     destination = "~/controller-setup.sh"
-
-  #     connection {
-  #       type     = "ssh"
-  #       user     = "ubuntu"
-  #       private_key = file("../kz8s.key")
-  #       host     = "${openstack_compute_instance_v2.controller-0.network[0].fixed_ip_v4}"
-  #     }
-  #   }
-
-  #    provisioner "local-exec" {
-  #      command = "bash ~/controller-setup.sh"
-  #    }
-
   provisioner "remote-exec" {
     script = "controller-setup.sh"
 
@@ -119,6 +121,105 @@ resource "openstack_compute_instance_v2" "controller-0" {
       host        = "${openstack_compute_instance_v2.controller-0.network[0].fixed_ip_v4}"
     }
   }
+
+}
+
+## Create controller-1
+resource "openstack_compute_instance_v2" "controller-1" {
+  name            = "controller-1"
+  flavor_id       = "c62db2ea-2ccd-49f0-9b88-307cdd3d6e0e" // c1.c2r2
+  key_pair        = "kz8s"
+  security_groups = ["${openstack_compute_secgroup_v2.kubernetes-SSH.name}", "default"]
+
+  block_device {
+    uuid                  = openstack_blockstorage_volume_v2.controller-1-volume.id
+    source_type           = "volume"
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = false
+  }
+
+  network {
+    name        = openstack_networking_network_v2.kz8s-net.name
+    fixed_ip_v4 = "10.240.0.11"
+  }
+
+  provisioner "remote-exec" {
+    script = "controller-setup.sh"
+
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file("../kz8s.key")
+      host        = "${openstack_compute_instance_v2.controller-1.network[0].fixed_ip_v4}"
+    }
+  }
+
+}
+
+## Create worker-0
+resource "openstack_compute_instance_v2" "worker-0" {
+  name            = "worker-0"
+  flavor_id       = "c62db2ea-2ccd-49f0-9b88-307cdd3d6e0e" // c1.c2r2
+  key_pair        = "kz8s"
+  security_groups = ["${openstack_compute_secgroup_v2.kubernetes-SSH.name}", "default"]
+
+  block_device {
+    uuid                  = openstack_blockstorage_volume_v2.worker-0-volume.id
+    source_type           = "volume"
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = false
+  }
+
+  network {
+    name        = openstack_networking_network_v2.kz8s-net.name
+    fixed_ip_v4 = "10.240.0.20"
+  }
+
+#   provisioner "remote-exec" {
+#     script = "worker-setup.sh"
+
+#     connection {
+#       type        = "ssh"
+#       user        = "ubuntu"
+#       private_key = file("../kz8s.key")
+#       host        = "${openstack_compute_instance_v2.worker-0.network[0].fixed_ip_v4}"
+#     }
+#   }
+
+}
+
+## Create worker-1
+resource "openstack_compute_instance_v2" "worker-1" {
+  name            = "worker-1"
+  flavor_id       = "c62db2ea-2ccd-49f0-9b88-307cdd3d6e0e" // c1.c2r2
+  key_pair        = "kz8s"
+  security_groups = ["${openstack_compute_secgroup_v2.kubernetes-SSH.name}", "default"]
+
+  block_device {
+    uuid                  = openstack_blockstorage_volume_v2.worker-1-volume.id
+    source_type           = "volume"
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = false
+  }
+
+  network {
+    name        = openstack_networking_network_v2.kz8s-net.name
+    fixed_ip_v4 = "10.240.0.21"
+  }
+
+#   provisioner "remote-exec" {
+#     script = "worker-setup.sh"
+
+#     connection {
+#       type        = "ssh"
+#       user        = "ubuntu"
+#       private_key = file("../kz8s.key")
+#       host        = "${openstack_compute_instance_v2.worker-1.network[0].fixed_ip_v4}"
+#     }
+#   }
 
 }
 
