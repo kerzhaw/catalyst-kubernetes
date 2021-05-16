@@ -12,15 +12,6 @@ required_version = ">= 0.15.3"
 provider "openstack" {  
 }
 
-# Request a floating IP
-resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
-    pool = "public-net"
-}
-
-locals {
-  kz8s-public-ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
-}
-
 # Create a Router
 resource "openstack_networking_router_v2" "border-router" {
     name = "border-router"
@@ -42,9 +33,14 @@ resource "openstack_networking_subnet_v2" "kubernetes-subnet" {
     ip_version = 4
 }
 
-# Create a Router interface
+# Create a Router interface(s)
 resource "openstack_networking_router_interface_v2" "router-interface" {
     router_id = "${openstack_networking_router_v2.border-router.id}"
+    subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
+}
+
+resource "openstack_networking_router_interface_v2" "router-interface" {
+    router_id = "f847e4d3-c453-41ff-b8b8-7b9be337e305"
     subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
 }
 
@@ -93,17 +89,21 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  provisioner "file" {
-    source      = "testfile.txt"    
-    destination = "~/"
+#   provisioner "local-exec" {
+#     command = "echo ${self.name} >> what_is_my_name.txt"
+#   }
 
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = file("../kz8s.key")
-      host     = "${local.kz8s-public-ip}"
-    }
-  }
+#   provisioner "file" {
+#     source      = "testfile.txt"    
+#     destination = "~/"
+
+#     connection {
+#       type     = "ssh"
+#       user     = "ubuntu"
+#       private_key = file("../kz8s.key")
+#       host     = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+#     }
+#   }
 }
 
 # Request a floating IP
