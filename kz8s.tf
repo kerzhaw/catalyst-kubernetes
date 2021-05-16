@@ -28,10 +28,6 @@ resource "openstack_networking_network_v2" "kz8s-net" {
 resource "openstack_networking_subnet_v2" "kubernetes-subnet" {
     name = "kubernetes-subnet"
     network_id = "${openstack_networking_network_v2.kz8s-net.id}"
-    # allocation_pools {
-    #     start = "10.0.0.10"
-    #     end = "10.0.0.200"
-    # }
     enable_dhcp = "true"
     cidr = "10.240.0.0/24"
     ip_version = 4
@@ -88,8 +84,20 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  provisioner "local-exec" {
-    command = "echo ${self.private_ip} >> private_ips.txt"
+#   provisioner "local-exec" {
+#     command = "echo ${self.name} >> what_is_my_name.txt"
+#   }
+
+  provisioner "file" {
+    source      = "testfile.txt"
+    destination = "~/"
+
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = file("../kz8s.key")
+      host     = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+    }
   }
 }
 
