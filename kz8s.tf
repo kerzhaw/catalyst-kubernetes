@@ -44,9 +44,9 @@ resource "openstack_networking_router_interface_v2" "router-interface" {
 }
 
 # Create a Security Group
-resource "openstack_compute_secgroup_v2" "SSH" {
-    name = "SSH"
-    description = "SSH"
+resource "openstack_compute_secgroup_v2" "kubernetes-SSH" {
+    name = "kubernetes-SSH"
+    description = "kubernetes SSH"
     rule {
         from_port = 22
         to_port = 22
