@@ -97,26 +97,26 @@ resource "openstack_compute_instance_v2" "controller-0" {
 #     command = "echo ${self.name} >> what_is_my_name.txt"
 #   }
 
-#   provisioner "file" {
-#     source      = "testfile.txt"    
-#     destination = "~/"
+  provisioner "file" {
+    source      = "testfile.txt"    
+    destination = "~/"
 
-#     connection {
-#       type     = "ssh"
-#       user     = "ubuntu"
-#       private_key = file("../kz8s.key")
-#       host     = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
-#     }
-#   }
+    connection {
+      type     = "ssh"
+      user     = "ubuntu"
+      private_key = file("../kz8s.key")
+      host     = "10.240.0.10"
+    }
+  }
 }
 
-# Request a floating IP
-resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
-    pool = "public-net"
-}
+# # Request a floating IP
+# resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
+#     pool = "public-net"
+# }
 
-# Associate floating IP
-resource "openstack_compute_floatingip_associate_v2" "kz8s-public-ip-assoc" {
-  floating_ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
-  instance_id = "${openstack_compute_instance_v2.controller-0.id}"
-}
+# # Associate floating IP
+# resource "openstack_compute_floatingip_associate_v2" "kz8s-public-ip-assoc" {
+#   floating_ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+#   instance_id = "${openstack_compute_instance_v2.controller-0.id}"
+# }
