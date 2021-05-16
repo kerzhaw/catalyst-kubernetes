@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-rm *.json
-rm *.csr
-rm *.pem
+rm controller/*.json
+rm controller/*.csr
+rm controller/*.pem
+rm worker/*.json
+rm worker/*.csr
+rm worker/*.pem

@@ -10,3 +10,12 @@
 ./gen-sched-client-cert
 ./gen-api-server-cert
 ./gen-svc-account-keypair
+
+mkdir -p controller
+mkdir -p worker
+
+cp ca.pem worker/
+mv ca.pem controller/
+
+mv worker-*-key.* worker/
+mv *.pem controller/

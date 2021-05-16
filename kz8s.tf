@@ -111,16 +111,21 @@ resource "openstack_compute_instance_v2" "controller-0" {
     fixed_ip_v4 = "10.240.0.10"
   }
 
-  provisioner "remote-exec" {
-    script = "controller-setup.sh"
-
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("../kz8s.key")
-      host        = "${openstack_compute_instance_v2.controller-0.network[0].fixed_ip_v4}"
-    }
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("../kz8s.key")
+    host        = self.network[0].fixed_ip_v4
   }
+
+  provisioner "file" {
+    source      = "../pki/controller/"
+    destination = "/home/ubuntu"
+  }
+ 
+  #   provisioner "remote-exec" {
+  #     script = "controller-setup.sh"
+  #   }
 
 }
 
@@ -144,16 +149,16 @@ resource "openstack_compute_instance_v2" "controller-1" {
     fixed_ip_v4 = "10.240.0.11"
   }
 
-  provisioner "remote-exec" {
-    script = "controller-setup.sh"
-
-    connection {
-      type        = "ssh"
-      user        = "ubuntu"
-      private_key = file("../kz8s.key")
-      host        = "${openstack_compute_instance_v2.controller-1.network[0].fixed_ip_v4}"
-    }
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("../kz8s.key")
+    host        = self.network[0].fixed_ip_v4
   }
+
+  #   provisioner "remote-exec" {
+  #     script = "controller-setup.sh"
+  #   }
 
 }
 
@@ -177,16 +182,16 @@ resource "openstack_compute_instance_v2" "worker-0" {
     fixed_ip_v4 = "10.240.0.20"
   }
 
-#   provisioner "remote-exec" {
-#     script = "worker-setup.sh"
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("../kz8s.key")
+    host        = self.network[0].fixed_ip_v4
+  }
 
-#     connection {
-#       type        = "ssh"
-#       user        = "ubuntu"
-#       private_key = file("../kz8s.key")
-#       host        = "${openstack_compute_instance_v2.worker-0.network[0].fixed_ip_v4}"
-#     }
-#   }
+  #   provisioner "remote-exec" {
+  #     script = "worker-setup.sh"
+  #   }
 
 }
 
@@ -210,16 +215,16 @@ resource "openstack_compute_instance_v2" "worker-1" {
     fixed_ip_v4 = "10.240.0.21"
   }
 
-#   provisioner "remote-exec" {
-#     script = "worker-setup.sh"
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("../kz8s.key")
+    host        = self.network[0].fixed_ip_v4
+  }
 
-#     connection {
-#       type        = "ssh"
-#       user        = "ubuntu"
-#       private_key = file("../kz8s.key")
-#       host        = "${openstack_compute_instance_v2.worker-1.network[0].fixed_ip_v4}"
-#     }
-#   }
+  #   provisioner "remote-exec" {
+  #     script = "worker-setup.sh"
+  #   }
 
 }
 
