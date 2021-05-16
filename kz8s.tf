@@ -79,8 +79,8 @@ resource "openstack_blockstorage_volume_v2" "controller-1-volume" {
   image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
 }
 
-resource "openstack_blockstorage_volume_v2" "worker-1-volume" {
-  name     = "worker-1-volume"
+resource "openstack_blockstorage_volume_v2" "worker-0-volume" {
+  name     = "worker-0-volume"
   size     = 100
   image_id = "e4623196-706d-4d1e-8f42-769b2300650c" // ubuntu-20.04-x86_64
 }
