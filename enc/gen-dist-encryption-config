@@ -16,7 +16,7 @@ resources:
       - identity: {}
 EOF
 
-for instance in controller-0 controller-1; do
-  export INTERNAL_IP=$(openstack server show -c addresses -f yaml ${instance} | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
-  scp -i ../cloud.key encryption-config.yaml ubuntu@${INTERNAL_IP}:~/
-done
+# for instance in controller-0 controller-1; do
+#   export INTERNAL_IP=$(openstack server show -c addresses -f yaml ${instance} | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
+#   scp -i ../cloud.key encryption-config.yaml ubuntu@${INTERNAL_IP}:~/
+# done
