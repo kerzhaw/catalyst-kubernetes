@@ -13,10 +13,10 @@ provider "openstack" {
 }
 
 # Create a Router
-resource "openstack_networking_router_v2" "border-router" {
-    name = "border-router"
-    external_network_id = "f10ad6de-a26d-4c29-8c64-2a7418d47f8f"
-}
+#resource "openstack_networking_router_v2" "border-router" {
+#    name = "border-router"
+#    external_network_id = "f10ad6de-a26d-4c29-8c64-2a7418d47f8f"
+#}
 
 # Create a Network  
 resource "openstack_networking_network_v2" "kz8s-net" {
@@ -34,12 +34,12 @@ resource "openstack_networking_subnet_v2" "kubernetes-subnet" {
 }
 
 # Create a Router interface(s)
-resource "openstack_networking_router_interface_v2" "router-interface" {
-    router_id = "${openstack_networking_router_v2.border-router.id}"
-    subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
-}
+#resource "openstack_networking_router_interface_v2" "router-interface" {
+#    router_id = "${openstack_networking_router_v2.border-router.id}"
+#    subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
+#}
 
-resource "openstack_networking_router_interface_v2" "router-interface" {
+resource "openstack_networking_router_interface_v2" "kz8s-interface" {
     router_id = "f847e4d3-c453-41ff-b8b8-7b9be337e305"
     subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
 }
