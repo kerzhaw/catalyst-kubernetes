@@ -99,13 +99,13 @@ resource "openstack_compute_instance_v2" "controller-0" {
 
   provisioner "file" {
     source      = "testfile.txt"    
-    destination = "~/"
+    destination = "~/testfile.txt"
 
     connection {
       type     = "ssh"
       user     = "ubuntu"
       private_key = file("../kz8s.key")
-      host     = "10.240.0.10"
+      host     = "${openstack_compute_instance_v2.controller-0.network[0].fixed_ip_v4}"
     }
   }
 }
