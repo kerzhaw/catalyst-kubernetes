@@ -4,14 +4,14 @@ export KUBERNETES_PUBLIC_ADDRESS=$(openstack floating ip list -c 'Floating IP Ad
 
 for instance in worker-0 worker-1; do
   kubectl config set-cluster kz8s \
-    --certificate-authority=../pki/ca.pem \
+    --certificate-authority=../pki/controller/ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=${instance}.kubeconfig
 
   kubectl config set-credentials system:node:${instance} \
-    --client-certificate=../pki/${instance}.pem \
-    --client-key=../pki/${instance}-key.pem \
+    --client-certificate=../pki/worker/${instance}.pem \
+    --client-key=../pki/worker/${instance}-key.pem \
     --embed-certs=true \
     --kubeconfig=${instance}.kubeconfig
 
