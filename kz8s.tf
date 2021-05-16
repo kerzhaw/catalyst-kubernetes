@@ -12,6 +12,15 @@ required_version = ">= 0.15.3"
 provider "openstack" {  
 }
 
+# Request a floating IP
+resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
+    pool = "public-net"
+}
+
+locals {
+  kz8s-public-ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+}
+
 # Create a Router
 resource "openstack_networking_router_v2" "border-router" {
     name = "border-router"
@@ -92,7 +101,7 @@ resource "openstack_compute_instance_v2" "controller-0" {
       type     = "ssh"
       user     = "ubuntu"
       private_key = file("../kz8s.key")
-      host     = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
+      host     = "${local.kz8s-public-ip}"
     }
   }
 }
@@ -106,18 +115,4 @@ resource "openstack_networking_floatingip_v2" "kz8s-public-ip" {
 resource "openstack_compute_floatingip_associate_v2" "kz8s-public-ip-assoc" {
   floating_ip = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
   instance_id = "${openstack_compute_instance_v2.controller-0.id}"
-}
-
-resource "openstack_compute_instance_v2" "controller-0" {
-  provisioner "file" {
-    source      = "testfile.txt"    
-    destination = "~/"
-
-    connection {
-      type     = "ssh"
-      user     = "ubuntu"
-      private_key = file("../kz8s.key")
-      host     = "${openstack_networking_floatingip_v2.kz8s-public-ip.address}"
-    }
-  }
 }
