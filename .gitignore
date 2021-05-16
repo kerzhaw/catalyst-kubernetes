@@ -5,3 +5,4 @@ pki/*.pem
 pki/*.csr
 first-instance.tf
 .terraform/
+**/*.tfstate*
