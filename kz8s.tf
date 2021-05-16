@@ -133,15 +133,6 @@ resource "openstack_compute_instance_v2" "controller-0" {
     destination = "/home/ubuntu"
   }
 
-  provisioner "local-exec" {
-    environment = {
-      INTERNAL_IP  = self.network[0].fixed_ip_v4
-      ETCD_NAME    = self.name,
-      ETCD_VER     = "v3.4.16"
-      DOWNLOAD_URL = "https://github.com/etcd-io/etcd/releases/download"
-    }
-  }
-
   provisioner "remote-exec" {
     script = "controller-setup.sh"
   }
@@ -188,13 +179,6 @@ resource "openstack_compute_instance_v2" "controller-1" {
   provisioner "file" {
     source      = "enc/encryption-config.yaml"
     destination = "/home/ubuntu"
-  }
-
-  provisioner "local-exec" {
-    environment = {
-      INTERNAL_IP = self.network[0].fixed_ip_v4
-      ETCD_NAME   = self.name
-    }
   }
 
   provisioner "remote-exec" {

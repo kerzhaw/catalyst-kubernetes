@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
+ETCD_VER=v3.4.16
+
 #sudo apt update -y
 #sudo apt upgrade -y
 
