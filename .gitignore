@@ -1,4 +1,6 @@
 config/*.kubeconfig
+config/controller/
+config/worker/
 enc/*.yaml
 pki/*.json
 pki/*.pem

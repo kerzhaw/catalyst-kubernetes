@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 
-rm *.kubeconfig
+rm controller/*.kubeconfig
+rm worker/*.kubeconfig
 
 ./gen-worker-configs
 ./gen-proxy-configs
 ./gen-cm-configs
 ./gen-sched-configs
 ./gen-admin-configs
+
+mkdir -p controller
+mkdir -p worker
+
+mv worker*.kubeconfig worker/
+mv kube-proxy.kubeconfig worker/
+
+mv admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig /controller
 
