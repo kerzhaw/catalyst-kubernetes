@@ -18,6 +18,10 @@ provider "openstack" {
 #    external_network_id = "f10ad6de-a26d-4c29-8c64-2a7418d47f8f"
 #}
 
+locals {
+  border_router_id = "f847e4d3-c453-41ff-b8b8-7b9be337e305"
+}
+
 # Create a Network  
 resource "openstack_networking_network_v2" "kz8s-net" {
     name = "kz8s-net"
@@ -40,7 +44,7 @@ resource "openstack_networking_subnet_v2" "kubernetes-subnet" {
 #}
 
 resource "openstack_networking_router_interface_v2" "kz8s-interface" {
-    router_id = "f847e4d3-c453-41ff-b8b8-7b9be337e305"
+    router_id = "${local.border_router_id}"
     subnet_id = "${openstack_networking_subnet_v2.kubernetes-subnet.id}"
 }
 
@@ -52,7 +56,7 @@ resource "openstack_compute_secgroup_v2" "kubernetes-SSH" {
         from_port = 22
         to_port = 22
         ip_protocol = "tcp"
-        cidr = "0.0.0.0/0"
+        cidr = "192.168.0.0/24"
     }
 }
 
