@@ -3,6 +3,7 @@
 export DOWNLOAD_URL=https://github.com/etcd-io/etcd/releases/download
 export ETCD_VER="v3.4.16"
 export INTERNAL_IP=$(hostname -I | tr -d '[:blank:]')
+export ETCD_NAME=$(hostname -s)
 
 #sudo apt update -y
 #sudo apt upgrade -y
