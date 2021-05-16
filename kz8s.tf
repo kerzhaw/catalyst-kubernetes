@@ -130,7 +130,7 @@ resource "openstack_compute_instance_v2" "controller-0" {
 
   provisioner "file" {
     source      = "enc/encryption-config.yaml"
-    destination = "/home/ubuntu"
+    destination = "/home/ubuntu/"
   }
 
   provisioner "remote-exec" {
@@ -178,7 +178,7 @@ resource "openstack_compute_instance_v2" "controller-1" {
 
   provisioner "file" {
     source      = "enc/encryption-config.yaml"
-    destination = "/home/ubuntu"
+    destination = "/home/ubuntu/"
   }
 
   provisioner "remote-exec" {
