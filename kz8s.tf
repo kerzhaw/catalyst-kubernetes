@@ -119,7 +119,7 @@ resource "openstack_compute_instance_v2" "controller-0" {
   }
 
   provisioner "file" {
-    source      = "../pki/controller/"
+    source      = "pki/controller/"
     destination = "/home/ubuntu"
   }
  
@@ -157,7 +157,7 @@ resource "openstack_compute_instance_v2" "controller-1" {
   }
 
   provisioner "file" {
-    source      = "../pki/controller/"
+    source      = "pki/controller/"
     destination = "/home/ubuntu"
   }
 
@@ -195,7 +195,7 @@ resource "openstack_compute_instance_v2" "worker-0" {
   }
 
   provisioner "file" {
-    source      = "../pki/worker/"
+    source      = "pki/worker/"
     destination = "/home/ubuntu"
   }
 
@@ -233,7 +233,7 @@ resource "openstack_compute_instance_v2" "worker-1" {
   }
 
   provisioner "file" {
-    source      = "../pki/worker/"
+    source      = "pki/worker/"
     destination = "/home/ubuntu"
   }
 
