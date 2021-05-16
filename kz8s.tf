@@ -156,6 +156,11 @@ resource "openstack_compute_instance_v2" "controller-1" {
     host        = self.network[0].fixed_ip_v4
   }
 
+  provisioner "file" {
+    source      = "../pki/controller/"
+    destination = "/home/ubuntu"
+  }
+
   #   provisioner "remote-exec" {
   #     script = "controller-setup.sh"
   #   }
@@ -189,6 +194,11 @@ resource "openstack_compute_instance_v2" "worker-0" {
     host        = self.network[0].fixed_ip_v4
   }
 
+  provisioner "file" {
+    source      = "../pki/worker/"
+    destination = "/home/ubuntu"
+  }
+
   #   provisioner "remote-exec" {
   #     script = "worker-setup.sh"
   #   }
@@ -220,6 +230,11 @@ resource "openstack_compute_instance_v2" "worker-1" {
     user        = "ubuntu"
     private_key = file("../kz8s.key")
     host        = self.network[0].fixed_ip_v4
+  }
+
+  provisioner "file" {
+    source      = "../pki/worker/"
+    destination = "/home/ubuntu"
   }
 
   #   provisioner "remote-exec" {
