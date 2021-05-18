@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-rm *.json
-rm *.csr
-rm *.pem
-

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-./remove-all
+rm *.json
+rm *.csr
+rm *.pem
 
 ./gen-ca
 ./gen-admin-cert
@@ -11,11 +13,11 @@
 ./gen-api-server-cert
 ./gen-svc-account-keypair
 
-mkdir -p controller
-mkdir -p worker
+#mkdir -p controller
+#mkdir -p worker
 
-cp ca.pem worker/
-mv worker*.pem worker/
+#cp ca.pem worker/
+#mv worker*.pem worker/
 
-mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem service-account-key.pem service-account.pem controller/
+#mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem service-account-key.pem service-account.pem controller/
 

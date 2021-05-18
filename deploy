@@ -1,0 +1,28 @@
+rm -rf controllers
+rm -rf workers
+
+mkdir -p controllers
+mkdir -p workers
+
+./pki/gen-all
+./config/gen-all
+./enc/gen-dist-encryption-config
+
+cp setup-scripts/controller-setup.sh
+
+cp pki/ca.pem pki/worker*.pem worker/
+
+cp pki/ca.pem pki/ca-key.pem pki/kubernetes-key.pem pki/kubernetes.pem \
+    pki/service-account-key.pem pki/service-account.pem \
+    controller/
+
+cp config/worker*.kubeconfig worker/
+cp config/kube-proxy.kubeconfig worker/
+
+cp config/admin.kubeconfig config/kube-controller-manager.kubeconfig \
+    config/kube-scheduler.kubeconfig \
+    controller/
+
+cp enc/*.yaml controller/
+
+terraform validate && terraform apply

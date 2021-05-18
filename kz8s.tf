@@ -119,18 +119,8 @@ resource "openstack_compute_instance_v2" "controller-0" {
   }
 
   provisioner "file" {
-    source      = "pki/controller/"
+    source      = "controller/"
     destination = "/home/ubuntu"
-  }
-
-  provisioner "file" {
-    source      = "config/controller/"
-    destination = "/home/ubuntu"
-  }
-
-  provisioner "file" {
-    source      = "enc/encryption-config.yaml"
-    destination = "/home/ubuntu/"
   }
 
   provisioner "remote-exec" {
