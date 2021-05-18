@@ -2,7 +2,7 @@
 
 {
   kubectl config set-cluster kz8s \
-    --certificate-authority=../pki/controller/ca.pem \
+    --certificate-authority=../pki/ca.pem \
     --embed-certs=true \
     --server=https://127.0.0.1:6443 \
     --kubeconfig=kube-scheduler.kubeconfig
