@@ -17,8 +17,6 @@ cd ../enc
 
 cd ..
 
-cp setup-scripts/controller-setup.sh controllers/
-
 cp pki/ca.pem pki/worker*.pem workers/
 
 cp pki/ca.pem pki/ca-key.pem pki/kubernetes-key.pem pki/kubernetes.pem \
