@@ -28,6 +28,7 @@ echo Internal: ${INTERNAL_IP}
 echo -------------------------
 
 cfssl gencert \
+  -loglevel=3 \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
