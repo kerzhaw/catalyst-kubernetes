@@ -10,8 +10,8 @@ for instance in worker-0 worker-1; do
     --kubeconfig=${instance}.kubeconfig
 
   kubectl config set-credentials system:node:${instance} \
-    --client-certificate=../pki/worker/${instance}.pem \
-    --client-key=../pki/worker/${instance}-key.pem \
+    --client-certificate=../pki/${instance}.pem \
+    --client-key=../pki/${instance}-key.pem \
     --embed-certs=true \
     --kubeconfig=${instance}.kubeconfig
 
