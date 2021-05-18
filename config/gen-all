@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-*.kubeconfig
-*.kubeconfig
+rm *.kubeconfig
 
 ./gen-worker-configs
 ./gen-proxy-configs
