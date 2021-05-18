@@ -1,11 +1,9 @@
 config/*.kubeconfig
-config/controller/
-config/worker/
 enc/*.yaml
 pki/*.json
 pki/*.pem
 pki/*.csr
-pki/worker/
-pki/controller/
 .terraform/
 **/*.tfstate*
+workers/
+controllers/
