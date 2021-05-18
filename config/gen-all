@@ -8,9 +8,3 @@
 ./gen-cm-configs
 ./gen-sched-configs
 ./gen-admin-configs
-
-#mv worker*.kubeconfig worker/
-#mv kube-proxy.kubeconfig worker/
-
-#mv admin.kubeconfig kube-controller-manager.kubeconfig kube-scheduler.kubeconfig controller/
-
