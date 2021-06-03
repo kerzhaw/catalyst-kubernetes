@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 export INTERNAL_IP=$(openstack server show -c addresses -f yaml $1 | sed '1,2d;4d' | grep -Po '\d+\.\d+\.\d+\.\d+')
-ssh -i cloud.key ubuntu@${INTERNAL_IP}
+ssh -i ../kz8s.key ubuntu@${INTERNAL_IP}
